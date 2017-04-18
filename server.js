@@ -49,10 +49,9 @@ const router = {
       
       let list = require('./list.json');
       list.list.push(req.body.name);
-      list.list = _.sortedUniq(_.sortBy(list.list));
-
+      
       saveList(list)
-	.then(() => res.end(JSON.stringify(list.list, null, 2)))
+	.then(list => res.end(JSON.stringify(list.list, null, 2)))
 	.catch(e => res.end(`Error saving list ${e}`));
       
     },
@@ -65,16 +64,37 @@ const router = {
 
       const list = require('./list.json');
       res.end(JSON.stringify(list.current));
+      
     },
+    
   },
+
+  '/move': {
+
+    'POST': (req, res) => {
+
+      let list = require('./list.json');
+      let currentIndex = _.indexOf(list.list, list.current);
+      let nextIndex = currentIndex + 1;
+      list.current = list.list[nextIndex];
+
+      saveList(list)
+	.then(list => res.end(`Next: ${list.current}`))
+	.catch(e => res.end(`Error saving list ${e}`));
+    },
+    
+  }
   
 };
 
 function saveList(list) {
   return new Promise((resolve, reject) => {
+
+    list.list = _.sortedUniq(_.sortBy(list.list));
+    
     fs.writeFile('./list.json', JSON.stringify(list, null, 2), (err) => {
       if (err) return reject(err);
-      return resolve();
+      return resolve(list);
     });
   });
 
