@@ -1,0 +1,23 @@
+{
+  "name": "lunch-n-learn",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "PORT=4000 node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahqaan/lunch-n-learn.git"
+  },
+  "author": "Shahqaan Qasim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahqaan/lunch-n-learn/issues"
+  },
+  "homepage": "https://github.com/shahqaan/lunch-n-learn#readme",
+  "dependencies": {
+    "lodash": "4.17.4"
+  }
+}
