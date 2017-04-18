@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/shahqaan/lunch-n-learn#readme",
   "dependencies": {
-    "lodash": "4.17.4"
+    "lodash": "4.17.4",
+    "slack-node": "0.1.8"
   }
 }

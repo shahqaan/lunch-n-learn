@@ -1,6 +1,6 @@
 const http = require('http');
 const _ = require('lodash');
-const fs = require('fs');
+const Utils = require('./utils');
 
 const requestHandler = (req, res) => {
 
@@ -50,7 +50,7 @@ const router = {
       let list = require('./list.json');
       list.list.push(req.body.name);
       
-      saveList(list)
+      Utils.saveList(list)
 	.then(list => res.end(JSON.stringify(list.list, null, 2)))
 	.catch(e => res.end(`Error saving list ${e}`));
       
@@ -73,29 +73,14 @@ const router = {
 
     'POST': (req, res) => {
 
-      let list = require('./list.json');
-      let currentIndex = _.indexOf(list.list, list.current);
-      let nextIndex = currentIndex + 1;
-      list.current = list.list[nextIndex];
-
-      saveList(list)
+      return Utils.move()
 	.then(list => res.end(`Next: ${list.current}`))
 	.catch(e => res.end(`Error saving list ${e}`));
+
     },
     
   }
   
 };
 
-function saveList(list) {
-  return new Promise((resolve, reject) => {
 
-    list.list = _.sortedUniq(_.sortBy(list.list));
-    
-    fs.writeFile('./list.json', JSON.stringify(list, null, 2), (err) => {
-      if (err) return reject(err);
-      return resolve(list);
-    });
-  });
-
-}
